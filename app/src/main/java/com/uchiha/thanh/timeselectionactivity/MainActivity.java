@@ -5,7 +5,9 @@ import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -127,11 +129,13 @@ public class MainActivity extends Activity {
         public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
             //Xóa vị trí thứ arg2
-            arrJob.remove(arg2);
-            Toast.makeText(MainActivity.this,"Đã xóa công việc thứ " + (arg2 + 1),Toast.LENGTH_SHORT).show();
-            adapter.notifyDataSetChanged();
+            //arrJob.remove(arg2);
+            XacNhanXoa(arg2);
+            //Toast.makeText(MainActivity.this,"Đã xóa công việc thứ " + (arg2 + 1),Toast.LENGTH_SHORT).show();
+            //adapter.notifyDataSetChanged();
             return false;
         }
+
 
         @Override
         public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -141,6 +145,28 @@ public class MainActivity extends Activity {
                     arrJob.get(arg2).getDesciption(),
                     Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+    private void XacNhanXoa(final int pos){
+        AlertDialog.Builder alearDialog = new AlertDialog.Builder(this);
+        alearDialog.setTitle("Thông báo xóa");
+        alearDialog.setIcon(R.mipmap.ic_launcher);
+        alearDialog.setMessage("Bạn có muốn xóa công việc này không ?");
+        alearDialog.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                arrJob.remove(pos);
+                adapter.notifyDataSetChanged();
+            }
+        });
+        alearDialog.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        alearDialog.show();
 
     }
     /**
